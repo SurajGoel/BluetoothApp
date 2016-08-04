@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--        android:foreground="?android:attr/selectableItemBackground"
+!-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:navigationIcon="@mipmap/ic_back">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/tv_device_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device 14"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tv_mode"
+                android:layout_below="@+id/tv_device_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calibration"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:src="@mipmap/ic_power"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:foreground="@drawable/button_selector"
+                    android:onClick="Disconnect"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listview_logs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_back_to_customization"></ListView>
+
+
+
+
+        <Button
+            android:id="@+id/btn_back_to_customization"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="#FFffff"
+            android:gravity="left|center_vertical"
+            android:text="Back to Customizations"
+            android:textSize="18dp"
+            android:background="@color/colorAccent"
+            android:foreground="@drawable/button_selector"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:textAllCaps="false"
+            android:paddingLeft="8dp"
+            android:onClick="Customization"/>
+    </RelativeLayout>
+</LinearLayout>

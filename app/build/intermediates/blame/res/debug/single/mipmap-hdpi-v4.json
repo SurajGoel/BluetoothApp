@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\happy_counter.jpg",
+        "source": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\src\\main\\res\\mipmap-hdpi\\happy_counter.jpg"
+    },
+    {
+        "merged": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\icon.png",
+        "source": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\src\\main\\res\\mipmap-hdpi\\icon.png"
+    },
+    {
+        "merged": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_power.png",
+        "source": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_power.png"
+    },
+    {
+        "merged": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_back.png",
+        "source": "C:\\Users\\sgoel01\\AndroidStudioProjects\\BluetoothApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_back.png"
+    }
+]

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:navigationIcon="@mipmap/ic_back">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/transparent"
+                    android:foreground="@drawable/button_selector"
+                    android:src="@mipmap/ic_power"
+                    android:layout_alignParentRight="true"
+                    android:onClick="Disconnect"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Serial Log"
+        android:textColor="#000"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentTop="true"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_below="@+id/log"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#455a64"
+            android:layout_marginTop="5dp"/>
+        <ListView
+            android:id="@+id/listview_logs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_calibration"
+            android:layout_below="@+id/view"></ListView>
+
+
+        <Button
+            android:id="@+id/btn_calibration"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="#FFffff"
+            android:text="Calibration Mode"
+            android:gravity="left|center_vertical"
+            android:textSize="17dp"
+            android:background="@color/colorAccent"
+            android:foreground="@drawable/button_selector"
+            android:layout_gravity="bottom"
+            android:layout_above="@+id/btn_customization"
+            android:layout_marginBottom="1dp"
+            android:textAllCaps="false"
+            android:paddingLeft="8dp"
+            android:onClick="Calibration"/>
+
+        <Button
+            android:id="@+id/btn_customization"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="#FFffff"
+            android:gravity="left|center_vertical"
+            android:text="Customization Mode"
+            android:textSize="17dp"
+            android:background="@color/colorAccent"
+            android:foreground="@drawable/button_selector"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:textAllCaps="false"
+            android:paddingLeft="8dp"
+            android:onClick="Customization"/>
+    </RelativeLayout>
+</LinearLayout>
