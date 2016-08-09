@@ -45,8 +45,8 @@ public class Activity_Log extends Activity {
 
     //disconnecting the connected bluetooth device
     public void Disconnect(View view) {
+        blueController.bluetoothSerial.stop();
         Intent intent = new Intent(this, Activity_Connect.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);//clearing backstack to open connect page
         startActivity(intent);
         Toast.makeText(this, "Device disconnected", Toast.LENGTH_SHORT).show();
         finish();
