@@ -31,7 +31,7 @@ public class Activity_Log extends Activity {
 
     //taking to calibration page
     public void Calibration(View view) {
-        nonClickable();
+        //nonClickable();
     }
 
 
