@@ -19,8 +19,6 @@ public class BlueController extends Application implements BluetoothSerialListen
         super.onCreate();
         Log.d("started", " Bluetooth Application is started/");
         bluetoothSerial = new BluetoothSerial(this, this);
-        bluetoothSerial.setup();
-        bluetoothSerial.start();
     }
 
     public void writeMessage(String message) {
