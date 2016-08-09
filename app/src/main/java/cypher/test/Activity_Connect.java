@@ -28,6 +28,8 @@ public class Activity_Connect extends Activity
 
     //handling connection call
     public void Connect(View view) {
+        blueController.bluetoothSerial.setup();
+        blueController.bluetoothSerial.start();
         showDeviceListDialog();
        // Intent intent = new Intent(Activity_Connect.this, Activity_Log.class);
       //  startActivity(intent);
