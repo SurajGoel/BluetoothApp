@@ -13,15 +13,13 @@
             android:layout_height="120dp"
             android:scaleType="fitXY"
             android:src="@mipmap/icon"
-            android:layout_above="@+id/text_connect"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:layout_margin="5dp"
             android:foreground="@drawable/button_selector"
             android:background="@android:color/transparent"
 
             android:onClick="Connect"
-            android:id="@+id/blue_btn" />
+            android:id="@+id/blue_btn"
+            android:layout_above="@+id/text_connect"
+            android:layout_centerHorizontal="true" />
     <TextView
         android:id="@+id/text_connect"
         android:layout_width="wrap_content"
@@ -76,10 +74,29 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/Testing"
-        android:layout_below="@+id/text_connect"
-        android:layout_alignRight="@+id/text_connect"
-        android:layout_alignEnd="@+id/text_connect"
-        android:layout_marginTop="60dp" />
+        android:layout_above="@+id/btn_help"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_below="@+id/view_center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minWidth="100dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send"
+        android:id="@+id/button"
+        android:layout_below="@+id/view_center"
+        android:layout_alignRight="@+id/Testing"
+        android:layout_alignEnd="@+id/Testing"
+        android:onClick="sendMessage" />
 
 
 </RelativeLayout>
