@@ -13,6 +13,7 @@ public class BlueController extends Application implements BluetoothSerialListen
     public static String command="";
     public boolean activityLock=false;
     private boolean countStarted=false;
+    public boolean connecting = false;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,10 +28,15 @@ public class BlueController extends Application implements BluetoothSerialListen
         bluetoothSerial.write(message);
     }
 
+    public void Connect(BluetoothDevice device) {
+        bluetoothSerial.connect(device);
+        connecting=true;
+    }
+
     @Override
     public void onBluetoothDeviceConnected(String name, String address) {
         updateBluetoothState();
-        bluetoothSerial.write("Hello There Raspberry");
+        connecting=false;
         Log.d("voila","voila");
     }
 
