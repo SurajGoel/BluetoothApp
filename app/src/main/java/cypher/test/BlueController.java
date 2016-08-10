@@ -9,6 +9,12 @@ import android.util.Log;
 
 public class BlueController extends Application implements BluetoothSerialListener, BluetoothDeviceListDialog.OnDeviceSelectedListener {
 
+
+    public interface setOnReadListener {
+        public void onReadListener(String message);
+    }
+
+    private setOnReadListener mListener;
     public BluetoothSerial bluetoothSerial;
     public static String command="";
     public boolean activityLock=false;
@@ -19,6 +25,12 @@ public class BlueController extends Application implements BluetoothSerialListen
         super.onCreate();
         Log.d("started", " Bluetooth Application is started/");
         bluetoothSerial = new BluetoothSerial(this, this);
+        bluetoothSerial.setup();
+        bluetoothSerial.start();
+    }
+
+    public void getOnReadListener (BlueController.setOnReadListener listener) {
+        this.mListener = listener;
     }
 
     public void writeMessage(String message) {
@@ -45,6 +57,7 @@ public class BlueController extends Application implements BluetoothSerialListen
       /*  tvTerminal.append(getString(R.string.terminal_message_template,
                 bluetoothSerial.getConnectedDeviceName(),
                 message));*/
+        mListener.onReadListener(message);
         command+=message;
         if(!countStarted) {
             countStarted=true;
