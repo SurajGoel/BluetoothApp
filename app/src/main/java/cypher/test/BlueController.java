@@ -1,19 +1,23 @@
 package cypher.test;
 
 import android.app.Application;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 public class BlueController extends Application implements BluetoothSerialListener, BluetoothDeviceListDialog.OnDeviceSelectedListener {
 
-
+    // Optional. Not required.
+    // Sending message back to the activity when receiving to the activity whoever implements this.
     public interface setOnReadListener {
         public void onReadListener(String message);
     }
 
+    // Setting all the necessary variables.
     private setOnReadListener mListener;
     public BluetoothSerial bluetoothSerial;
     public static String command="";
@@ -24,24 +28,29 @@ public class BlueController extends Application implements BluetoothSerialListen
     public void onCreate() {
         super.onCreate();
         Log.d("started", " Bluetooth Application is started/");
+        // Starting Bluetooth Adapter.
         bluetoothSerial = new BluetoothSerial(this, this);
-        bluetoothSerial.setup();
-        bluetoothSerial.start();
     }
 
+    // Can be used when want some activity to override traffic control flow.
     public void getOnReadListener (BlueController.setOnReadListener listener) {
         this.mListener = listener;
     }
 
+    // Send message to connected bluetooth device.
     public void writeMessage(String message) {
         activityLock=true;
         bluetoothSerial.write(message);
     }
 
+
     public void Connect(BluetoothDevice device) {
         bluetoothSerial.connect(device);
         connecting=true;
     }
+
+
+    // ALL THE NECESSARY LISTENERS ( SELF EXPLANATORY NAMES ).
 
     @Override
     public void onBluetoothDeviceConnected(String name, String address) {
@@ -115,6 +124,9 @@ public class BlueController extends Application implements BluetoothSerialListen
 
     }
 
+    // TIMER FOR WAITING ALL THE MESSAGE SIGNAL COME FOR SOME PARTICULAR TIME PERIOD,
+    // IN THIS CASE 1 sec.
+    // Activities waiting for the message are locked due to activityLock boolean ( While Reading )
     private CountDownTimer count = new CountDownTimer(1000, 50) {
         @Override
         public void onTick(long millisUntilFinished) {
