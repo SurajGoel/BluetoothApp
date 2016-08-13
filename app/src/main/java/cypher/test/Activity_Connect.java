@@ -2,7 +2,10 @@ package cypher.test;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 public class Activity_Connect extends Activity
         implements BluetoothDeviceListDialog.OnDeviceSelectedListener, View.OnClickListener,View.OnLongClickListener{
 
+    private static final int REQUEST_ENABLE_BLUETOOTH = 1;
     private BlueController blueController;
     private ImageButton blue_btn;
     private TextView text_connect;
@@ -22,17 +26,34 @@ public class Activity_Connect extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_connect);
         text_connect = (TextView) findViewById(R.id.text_connect);
+        // Global Application variable to access bluetooth among all classes, all the traffic is handled through BlueController class.
         blueController = (BlueController) this.getApplicationContext();
-        blue_btn = (ImageButton) findViewById(R.id.blue_btn);
+        blue_btn = (ImageButton) findViewById(R.id.blue_btn);// Button to Connect to particular device.
     }
 
-    //handling connection call
+    //Checking if Bluetooth is Supported, Available but off or on.
     public void Connect(View view) {
-        blueController.bluetoothSerial.setup();
-        blueController.bluetoothSerial.start();
-        showDeviceListDialog();
-       // Intent intent = new Intent(Activity_Connect.this, Activity_Log.class);
-      //  startActivity(intent);
+        if(!blueController.bluetoothSerial.checkState()) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.no_bluetooth)
+                    .setPositiveButton(R.string.action_quit, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
+        if(!blueController.bluetoothSerial.checkAvailability()) {
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, REQUEST_ENABLE_BLUETOOTH);
+        }
+        else {
+            blueController.bluetoothSerial.setup();
+            blueController.bluetoothSerial.start();
+            showDeviceListDialog();
+        }
     }
 
     @Override
@@ -69,9 +90,25 @@ public class Activity_Connect extends Activity
         return false;
     }
 
+    @Override
+    // Activate Bluetooth in device activity.
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch (requestCode) {
+            case REQUEST_ENABLE_BLUETOOTH:
+                // Set up Bluetooth serial port when Bluetooth adapter is turned on
+                if (resultCode == Activity.RESULT_OK) {
+                    blueController.bluetoothSerial.setup();
+                    blueController.bluetoothSerial.start();
+                    showDeviceListDialog();
+                }
+                break;
+        }
+    }
 
     @Override
+    // After selecting bluetooth device calling connect to that device in an AsyncTask define below.
     public void onBluetoothDeviceSelected(BluetoothDevice device) {
         // Connect to the selected remote Bluetooth device
         text_connect.setText("Connecting...");
@@ -81,6 +118,7 @@ public class Activity_Connect extends Activity
         blueController.Connect(device);
     }
 
+    // Dialog box to select device, and connect after selecting
     private void showDeviceListDialog() {
         // Display dialog for selecting a remote Bluetooth device
         BluetoothDeviceListDialog dialog = new BluetoothDeviceListDialog(this);
@@ -97,6 +135,8 @@ public class Activity_Connect extends Activity
         //bluetoothSerial.stop();
     }
 
+    // Thread to connect to bluetooth and Redirect to Activity_Log class after successful connection.
+    // Currently not doing anything if not able to connect.
     private class Reader extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -111,6 +151,7 @@ public class Activity_Connect extends Activity
 
         @Override
         protected Void doInBackground(Void... params) {
+            // Actual connection taking place in BlueController class, and waiting here before that.
             while (blueController.connecting) {
 
             }
