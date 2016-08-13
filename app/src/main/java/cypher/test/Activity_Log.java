@@ -16,7 +16,7 @@ import org.w3c.dom.Text;
 
 
 public class Activity_Log extends Activity implements BlueController.setOnReadListener {
-    private boolean  isThreadRunning = false,lockDown=false;
+    private boolean  isThreadRunning = false;
     private TextView textShow,tvTerminal;
     private EditText textedit;
     private String match_1 = "C U S T O M   M O D E";
@@ -28,6 +28,7 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_log);
+        // Same bluetooth adapter from BlueController class.
         blueController = (BlueController) this.getApplicationContext();
         btn_calibration = (Button) findViewById(R.id.btn_calibration);
         btn_customization = (Button)  findViewById(R.id.btn_customization);
@@ -42,12 +43,15 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     }
 
 
-    //taking to the parameters page
+    //When Customization is hit, sending "Customize" to connected device. This is where things should work,
+    // After Successfully sending, we should see log on the space above, and Activity_Customization Activity
+    // Should be automatically called.
     public void Customization(View view) {
-        Write("Customize");
-        nonClickable();
-        new Reader().execute();
-        //Toast.makeText(this, blueController.command, Toast.LENGTH_LONG).show();
+        if(!isThreadRunning) {
+            Write("Customize");
+            new Reader().execute();
+        }
+        else Toast.makeText(this, "Already Sending Data", Toast.LENGTH_SHORT).show();
     }
 
     //disconnecting the connected bluetooth device
@@ -59,7 +63,7 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
         finish();
     }
 
-
+    // Writing through BlueController Class.
     private void Write(String message) {
         blueController.writeMessage(message);
     }
@@ -67,30 +71,30 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     private class Reader extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            isThreadRunning=true;
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(Void o) {
+            isThreadRunning=false;
+            doAction();
             super.onPostExecute(o);
         }
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-
-        }
-
+        // Waiting for all the message reading untill 500ms time period ( Defined in BlueController class)
         @Override
         protected Void doInBackground(Void... params) {
             while (blueController.activityLock) {
                 continue;
             }
-            doAction();
             return null;
         }
     }
 
+
+    // Checking here if message stored in BluetoothController command's variable matches "C U S T..."
+    // or not. If it, then shoot Customization class.
     private void doAction() {
         String temp = blueController.command;
         Log.d("messg", blueController.command);
@@ -100,11 +104,6 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
             startActivity(intent);
         }
         finish();
-    }
-
-    private void nonClickable() {
-        btn_calibration.setClickable(false);
-        btn_customization.setClickable(false);
     }
 
     @Override
