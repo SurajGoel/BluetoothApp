@@ -18,7 +18,7 @@ import java.util.Set;
  *
  * @author Macro Yau
  */
-public class BluetoothSerial implements Parcelable{
+public class BluetoothSerial{
 
     private static final String TAG = "BluetoothSerial";
 
@@ -46,23 +46,15 @@ public class BluetoothSerial implements Parcelable{
 
     private boolean isRaw;
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean checkAvailability() {
+        if(!mAdapter.isEnabled()) return false;
+        else return true;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
+    public boolean checkState() {
+        if(mAdapter == null) return false;
+        else return true;
     }
-
-    /**
-     * Constructor.
-     * @param context The {@link Context} to use.
-     * @param listener The {@link BluetoothSerialListener} to use.
-     */
-
-
 
     public BluetoothSerial(Context context, BluetoothSerialListener listener) {
         mAdapter = getAdapter(context);
