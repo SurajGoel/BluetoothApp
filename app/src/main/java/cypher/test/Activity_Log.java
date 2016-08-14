@@ -7,21 +7,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 
 public class Activity_Log extends Activity implements BlueController.setOnReadListener {
     private boolean  isThreadRunning = false;
-    private TextView textShow,tvTerminal;
-    private EditText textedit;
-    private String match_1 = "C U S T O M   M O D E";
+    private TextView tvTerminal;
     private BlueController blueController;
-    private BluetoothSerial bluetoothSerialthis;
     private Button btn_customization,btn_calibration,btn;
     private ScrollView svTerminal;
     @Override
@@ -48,6 +42,7 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     // Should be automatically called.
     public void Customization(View view) {
         if(!isThreadRunning) {
+            isThreadRunning=true;
             Write("Customize");
             new Reader().execute();
         }
@@ -71,7 +66,6 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     private class Reader extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
-            isThreadRunning=true;
             super.onPreExecute();
         }
 
@@ -86,7 +80,6 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
         @Override
         protected Void doInBackground(Void... params) {
             while (blueController.activityLock) {
-                continue;
             }
             return null;
         }
@@ -96,19 +89,18 @@ public class Activity_Log extends Activity implements BlueController.setOnReadLi
     // Checking here if message stored in BluetoothController command's variable matches "C U S T..."
     // or not. If it, then shoot Customization class.
     private void doAction() {
-        String temp = blueController.command;
+        String match_1 = "C U S T O M   M O D E";
         Log.d("messg", blueController.command);
         if(blueController.command.contains(match_1)) {
-            blueController.command = "";
             Intent intent = new Intent(this, Activity_Customization.class);
             startActivity(intent);
+            finish();
         }
-        finish();
     }
 
     @Override
     public void onReadListener(String message) {
-        tvTerminal.append(message + " - ");
+        tvTerminal.append(message);
         svTerminal.post(scrollTerminalToBottom);
     }
 
