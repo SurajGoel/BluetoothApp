@@ -20,7 +20,7 @@ public class BlueController extends Application implements BluetoothSerialListen
     // Setting all the necessary variables.
     private setOnReadListener mListener;
     public BluetoothSerial bluetoothSerial;
-    public static String command="";
+    public  String command="";
     public boolean activityLock=false;
     private boolean countStarted=false;
     public boolean connecting = false;
@@ -39,6 +39,7 @@ public class BlueController extends Application implements BluetoothSerialListen
 
     // Send message to connected bluetooth device.
     public void writeMessage(String message) {
+        command="";
         activityLock=true;
         bluetoothSerial.write(message);
     }
@@ -59,7 +60,6 @@ public class BlueController extends Application implements BluetoothSerialListen
         Log.d("voila","voila");
     }
 
-
     @Override
     public void onBluetoothSerialRead(String message) {
         // Print the incoming message on the terminal screen
@@ -74,6 +74,22 @@ public class BlueController extends Application implements BluetoothSerialListen
         }
         // if(!isThreadRunning) count.start();
     }
+
+    // TIMER FOR WAITING ALL THE MESSAGE SIGNAL COME FOR SOME PARTICULAR TIME PERIOD,
+    // IN THIS CASE 1 sec.
+    // Activities waiting for the message are locked due to activityLock boolean ( While Reading )
+    private CountDownTimer count = new CountDownTimer(1000, 5) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            Log.d("messageis", "The message is + " + command);
+        }
+
+        @Override
+        public void onFinish() {
+            activityLock=false;
+            countStarted=false;
+        }
+    };
 
     @Override
     public void onBluetoothSerialWrite(String message) {
@@ -124,21 +140,7 @@ public class BlueController extends Application implements BluetoothSerialListen
 
     }
 
-    // TIMER FOR WAITING ALL THE MESSAGE SIGNAL COME FOR SOME PARTICULAR TIME PERIOD,
-    // IN THIS CASE 1 sec.
-    // Activities waiting for the message are locked due to activityLock boolean ( While Reading )
-    private CountDownTimer count = new CountDownTimer(1000, 50) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            Log.d("messageis", "The message is + " + command);
-        }
 
-        @Override
-        public void onFinish() {
-            activityLock=false;
-            countStarted=false;
-        }
-    };
 
     @Override
     public void onConnectingBluetoothDevice() {
